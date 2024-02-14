@@ -39,7 +39,7 @@ class Unpacker:
                 try:
                     shutil.move(src, self.root_folder)
                     success = True
-                    if self.delete_empty_after_moving and dst_path is not self.root_folder and len(os.listdir(dst_path)) > 1:
+                    if self.delete_empty_after_moving and dst_path is not self.root_folder and not len(os.listdir(dst_path)) > 0:
                         os.removedirs(dst_path)
                 except shutil.SameFileError:
                     if self.rename_on_failed:

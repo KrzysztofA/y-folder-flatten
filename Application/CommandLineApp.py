@@ -39,3 +39,7 @@ class CommandLineApplication:
                             delete_empty_after_moving=delete_empty_folders)
         for i in reversed(tree_creator.get()):
             unpacker.folder_flatten(i)
+
+
+if __name__ == "__main__":
+    app = CommandLineApplication()
