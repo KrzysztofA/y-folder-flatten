@@ -37,5 +37,5 @@ class CommandLineApplication:
         tree_creator = FolderTreeCreator(root_folder, nest_level)
         unpacker = Unpacker(root_folder=root_folder, rename_on_failed=rename_on_failed,
                             delete_empty_after_moving=delete_empty_folders)
-        for i in reversed(tree_creator.get):
+        for i in reversed(tree_creator.get()):
             unpacker.folder_flatten(i)
