@@ -5,7 +5,7 @@ from pathlib import PurePath
 
 class FolderTreeCreator:
     root_folder: str | PurePath
-    folder_list: List[str | PurePath] = []
+    folder_list: List[PurePath] = []
     nest_level: int = 1
 
     def __init__(self, root_folder: str, nest_level: int = 1):
@@ -37,13 +37,9 @@ class FolderTreeCreator:
     def get_nest_level(self) -> int:
         return self.nest_level
 
-    def get(self) -> List[str | PurePath]:
+    def get(self) -> List[PurePath]:
         return self.folder_list
 
     @staticmethod
     def __create_nest_dir_list(dst_path):
         return [PurePath(dst_path, j) for j in os.listdir(dst_path) if os.path.isdir(PurePath(dst_path, j))]
-
-
-
-
