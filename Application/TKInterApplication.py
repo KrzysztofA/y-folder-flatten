@@ -12,6 +12,7 @@ class TKInterApplication:
 
     def __init__(self):
         window = Tk()
+        window.resizable(False, False)
 
         root_folder_input = StringVar()
 
@@ -39,13 +40,17 @@ class TKInterApplication:
         nest_level_input.trace_add(mode="write", callback=nest_level_callback)
 
         window.title("y-folder-flatten")
-        mainframe = ttk.Frame(window, padding="5 5 5 5")
+        mainframe = ttk.Frame(window, padding="5 5 5 5", width=300, height=100)
+        mainframe.grid_columnconfigure(0, weight=1, uniform="foo")
+        mainframe.grid_columnconfigure(1, weight=1, uniform="foo")
+        mainframe.grid_columnconfigure(2, weight=1, uniform="foo")
+
         mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
         root_folder_entry_label = ttk.Label(mainframe, text="Root Folder")
-        root_folder_entry = ttk.Entry(mainframe, textvariable=root_folder_input)
+        root_folder_entry = ttk.Entry(mainframe, textvariable=root_folder_input, width=50)
 
         nest_level_spinbox_label = ttk.Label(mainframe, text="Nest Level")
-        nest_level_spinbox = ttk.Spinbox(mainframe, from_=1.0, to=100.0, textvariable=nest_level_input, )
+        nest_level_spinbox = ttk.Spinbox(mainframe, from_=1.0, to=100.0, textvariable=nest_level_input, width=5)
         rename_dups_check_label = ttk.Label(mainframe, text="Auto-Rename Duplicates")
         rename_dups_check = ttk.Checkbutton(mainframe, variable=auto_rename_duplicates_input, onvalue=True)
         auto_delete_check_label = ttk.Label(mainframe, text="Auto-Delete Empty Folder")
@@ -53,14 +58,14 @@ class TKInterApplication:
         execute_button = ttk.Button(mainframe, text="Execute", command=self.execute_app)
         error_label = ttk.Label(mainframe, text="")
 
-        root_folder_entry_label.grid(column=0, row=0, columnspan=4)
-        root_folder_entry.grid(column=0, row=1, columnspan=4)
-        nest_level_spinbox_label.grid(column=4, row=0, columnspan=2)
-        nest_level_spinbox.grid(column=4, row=1, columnspan=1)
-        rename_dups_check_label.grid(column=0, row=2, columnspan=3)
-        rename_dups_check.grid(column=4, row=2, columnspan=1)
-        auto_delete_check_label.grid(column=0, row=3, columnspan=3)
-        auto_delete_check.grid(column=4, row=3, columnspan=1)
+        root_folder_entry_label.grid(column=0, row=0)
+        root_folder_entry.grid(column=0, row=1, columnspan=2)
+        nest_level_spinbox_label.grid(column=2, row=0)
+        nest_level_spinbox.grid(column=2, row=1, columnspan=1)
+        rename_dups_check_label.grid(column=0, row=2)
+        rename_dups_check.grid(column=2, row=2, columnspan=1)
+        auto_delete_check_label.grid(column=0, row=3)
+        auto_delete_check.grid(column=2, row=3, columnspan=1)
         execute_button.grid(row=4)
         error_label.grid(row=5)
 
