@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, filedialog
 from Controler import FolderTreeCreator, Unpacker
 import os
 
@@ -47,8 +47,14 @@ class TKInterApplication:
 
         mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
         root_folder_entry_label = ttk.Label(mainframe, text="Root Folder")
-        root_folder_entry = ttk.Entry(mainframe, textvariable=root_folder_input, width=50)
+        root_folder_entry_frame = ttk.Frame(mainframe)
+        root_folder_entry = ttk.Entry(root_folder_entry_frame, textvariable=root_folder_input, width=50)
 
+        def open_directory():
+            directory = filedialog.askdirectory()
+            root_folder_input.set(directory)
+
+        open_root_folder_button = ttk.Button(root_folder_entry_frame, text="Open", command=open_directory)
         nest_level_spinbox_label = ttk.Label(mainframe, text="Nest Level")
         nest_level_spinbox = ttk.Spinbox(mainframe, from_=1.0, to=100.0, textvariable=nest_level_input, width=5)
         rename_dups_check_label = ttk.Label(mainframe, text="Auto-Rename Duplicates")
@@ -59,7 +65,9 @@ class TKInterApplication:
         error_label = ttk.Label(mainframe, text="")
 
         root_folder_entry_label.grid(column=0, row=0)
-        root_folder_entry.grid(column=0, row=1, columnspan=2)
+        root_folder_entry_frame.grid(column=0, row=1, columnspan=2)
+        root_folder_entry.grid(column=0, row=0, columnspan=2)
+        open_root_folder_button.grid(column=2, row=0)
         nest_level_spinbox_label.grid(column=2, row=0)
         nest_level_spinbox.grid(column=2, row=1, columnspan=1)
         rename_dups_check_label.grid(column=0, row=2)
