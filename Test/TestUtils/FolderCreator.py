@@ -1,22 +1,27 @@
 import os
 from typing import List
+from pathlib import PurePath
 
 
 class FolderCreator:
     root_folder: str
     items_list: List[str] = []
-    folders_list: List[str] = []
+    folders_list: List[PurePath] = []
 
     def __init__(self, root_folder: str = "./", folder_name: str = "test", nest_level: int = 1, folders_number: int = 1, file_name: str = "test", files_number: int = 1):
-        self.root_folder = root_folder
+        self.root_folder = os.path.join(root_folder, "Tests")
+        os.mkdir(self.root_folder)
 
     def change_root_folder(self, root_folder: str):
         self.root_folder = root_folder
 
     def create_nested_folders_with_files_at_root(self, nest_level: int, folder_name: str, folders_number: int, file_name: str, files_number: int):
         def create_dir(folder_path):
-            os.mkdir(folder_path)
-            self.folders_list.append(folder_path)
+            try:
+                os.mkdir(folder_path)
+                self.folders_list.append(PurePath(folder_path))
+            except FileExistsError:
+                print(f"{folder_path} already exists!")
 
         if nest_level >= 1:
             last_folder = 0
@@ -43,7 +48,17 @@ class FolderCreator:
             self.items_list.append(file_path)
 
     def clean_up(self):
-        for i in range(len(self.items_list), 0, -1):
-            os.remove(self.items_list[i])
-        for i in range(len(self.folders_list), 0, -1):
-            os.removedirs(self.folders_list[i])
+        try:
+            for i in range(len(self.items_list), 0, -1):
+                os.remove(self.items_list[i])
+        except FileNotFoundError:
+            pass
+        try:
+            for i in range(len(self.folders_list), 0, -1):
+                os.removedirs(self.folders_list[i])
+        except FileNotFoundError:
+            pass
+        try:
+            os.removedirs(self.root_folder)
+        except FileNotFoundError:
+            pass
