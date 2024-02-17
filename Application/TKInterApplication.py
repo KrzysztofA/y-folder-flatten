@@ -1,6 +1,7 @@
 from tkinter import *
-from tkinter import ttk, filedialog
+from tkinter import ttk
 from Controler import FolderTreeCreator, Unpacker
+from View import DirectoryFrame
 import os
 
 
@@ -13,13 +14,6 @@ class TKInterApplication:
     def __init__(self):
         window = Tk()
         window.resizable(False, False)
-
-        root_folder_input = StringVar()
-
-        def root_folder_callback(var, index, mode):
-            self.set_root_folder(root_folder_input.get())
-
-        root_folder_input.trace_add(mode="write", callback=root_folder_callback)
         auto_rename_duplicates_input = BooleanVar()
 
         def rename_dups_callback(var, index, mode):
@@ -44,17 +38,16 @@ class TKInterApplication:
         mainframe.grid_columnconfigure(0, weight=1, uniform="foo")
         mainframe.grid_columnconfigure(1, weight=1, uniform="foo")
         mainframe.grid_columnconfigure(2, weight=1, uniform="foo")
-
+        mainframe.grid_rowconfigure(0, weight=1, uniform="foo")
+        mainframe.grid_rowconfigure(1, weight=1, uniform="foo")
+        mainframe.grid_rowconfigure(2, weight=1, uniform="foo")
+        mainframe.grid_rowconfigure(3, weight=1, uniform="foo")
+        mainframe.grid_rowconfigure(4, weight=1, uniform="foo")
+        mainframe.grid_rowconfigure(5, weight=1, uniform="foo")
         mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
         root_folder_entry_label = ttk.Label(mainframe, text="Root Folder")
-        root_folder_entry_frame = ttk.Frame(mainframe)
-        root_folder_entry = ttk.Entry(root_folder_entry_frame, textvariable=root_folder_input, width=50)
+        root_folder_entry_frame = DirectoryFrame(mainframe, self.set_root_folder)
 
-        def open_directory():
-            directory = filedialog.askdirectory()
-            root_folder_input.set(directory)
-
-        open_root_folder_button = ttk.Button(root_folder_entry_frame, text="Open", command=open_directory)
         nest_level_spinbox_label = ttk.Label(mainframe, text="Nest Level")
         nest_level_spinbox = ttk.Spinbox(mainframe, from_=1.0, to=100.0, textvariable=nest_level_input, width=5)
         rename_dups_check_label = ttk.Label(mainframe, text="Auto-Rename Duplicates")
@@ -62,12 +55,11 @@ class TKInterApplication:
         auto_delete_check_label = ttk.Label(mainframe, text="Auto-Delete Empty Folder")
         auto_delete_check = ttk.Checkbutton(mainframe, variable=auto_delete_empty_folder_input, onvalue=True)
         execute_button = ttk.Button(mainframe, text="Execute", command=self.execute_app)
-        error_label = ttk.Label(mainframe, text="")
+        self.error_label = ttk.Label(mainframe, text="", foreground="red")
 
         root_folder_entry_label.grid(column=0, row=0)
         root_folder_entry_frame.grid(column=0, row=1, columnspan=2)
-        root_folder_entry.grid(column=0, row=0, columnspan=2)
-        open_root_folder_button.grid(column=2, row=0)
+
         nest_level_spinbox_label.grid(column=2, row=0)
         nest_level_spinbox.grid(column=2, row=1, columnspan=1)
         rename_dups_check_label.grid(column=0, row=2)
@@ -75,7 +67,7 @@ class TKInterApplication:
         auto_delete_check_label.grid(column=0, row=3)
         auto_delete_check.grid(column=2, row=3, columnspan=1)
         execute_button.grid(row=4)
-        error_label.grid(row=5)
+        self.error_label.grid(row=5, column=0, columnspan=3)
 
         window.mainloop()
 
@@ -83,6 +75,8 @@ class TKInterApplication:
         if not os.path.isdir(self.root_folder):
             if os.path.isdir(f"./{self.root_folder}"):
                 self.root_folder = "./" + self.root_folder
+            else:
+                self.error_label.config(text="Invalid directory, not matching both relative and global paths")
 
         tree_creator = FolderTreeCreator(self.root_folder, self.nest_level)
         unpacker = Unpacker(root_folder=self.root_folder, rename_on_failed=self.auto_rename_duplicates,
@@ -104,7 +98,7 @@ class TKInterApplication:
             self.nest_level = int(new_nest_level)
         except ValueError:
             # Set error label to error
-            pass
+            self.error_label.config(text="Nest Level has value error")
 
 
 if __name__ == "__main__":
