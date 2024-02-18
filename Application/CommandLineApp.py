@@ -34,11 +34,16 @@ class CommandLineApplication:
 
         delete_empty_folders = bool_input == "y"
 
-        tree_creator = FolderTreeCreator(root_folder, nest_level)
-        unpacker = Unpacker(root_folder=root_folder, rename_on_failed=rename_on_failed,
-                            delete_empty_after_moving=delete_empty_folders)
-        for i in reversed(tree_creator.get()):
-            unpacker.folder_flatten(i)
+        while not valid_input.__contains__(bool_input):
+            bool_input = input("By continuing you agree that the owner is not responsible on your files and system integrity. You acknowledge "
+                               "that the application wasn't tested on thoroughly and on all systems. y/n")
+
+        if bool_input == "y":
+            tree_creator = FolderTreeCreator(root_folder, nest_level)
+            unpacker = Unpacker(root_folder=root_folder, rename_on_failed=rename_on_failed,
+                                delete_empty_after_moving=delete_empty_folders)
+            for i in reversed(tree_creator.get()):
+                unpacker.folder_flatten(i)
 
 
 if __name__ == "__main__":

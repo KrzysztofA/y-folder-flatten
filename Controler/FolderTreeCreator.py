@@ -4,13 +4,10 @@ from pathlib import PurePath
 
 
 class FolderTreeCreator:
-    root_folder: str | PurePath
-    folder_list: List[PurePath] = []
-    nest_level: int = 1
-
     def __init__(self, root_folder: str, nest_level: int = 1):
         self.root_folder = root_folder
         self.nest_level = nest_level
+        self.folder_list: List[PurePath] = []
         self.update_list()
 
     def change_root(self, root_folder: PurePath | str):

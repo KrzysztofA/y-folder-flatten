@@ -17,8 +17,8 @@ class Unpacker:
         if number == 0:
             return PurePath(filename)
         if not str.__contains__(self.multi_name_suffix, "<n>"):
-            return PurePath(path_no_ext + "_" + self.multi_name_suffix + str(number) + ext)
-        return PurePath(path_no_ext + "_" + str.replace(self.multi_name_suffix, "<n>", str(number)) + ext)
+            return PurePath(path_no_ext + self.multi_name_suffix + str(number) + ext)
+        return PurePath(path_no_ext + str.replace(self.multi_name_suffix, "<n>", str(number)) + ext)
 
     def name_renamer(self, filename: str | PurePath, number: int) -> PurePath:
         if number == 0:
@@ -41,7 +41,7 @@ class Unpacker:
                     success = True
                     if self.delete_empty_after_moving and dst_path is not self.root_folder and not len(os.listdir(dst_path)) > 0:
                         os.removedirs(dst_path)
-                except shutil.SameFileError:
+                except shutil.Error:
                     if self.rename_on_failed:
                         current_try += 1
                     else:

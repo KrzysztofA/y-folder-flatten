@@ -1,17 +1,53 @@
-# y-folder-flatten ver 0.96
+<!--
+{
+  "meta":
+  {
+    "type": "PCSoftware",
+    "ready": true,
+    "version": "1.0.0",
+    "main":
+    [
+      "Python",
+      "GUI"
+    ],
+    "tags":
+    [
+      "TKInter", 
+      "UnitTests"
+    ],
+    "satisfaction": "5",
+    "difficulty": "3",
+    "challenge": "2",
+    "complexity": "2"
+  }
+}
+-->
+
+
+# y-folder-flatten ver 1.0.0
+
 Easy script to flatten folders with provided nest level 
 
+As .exe available on https://drive.google.com/file/d/1_G-gymGXVin8DnhtnRhnLjIXHBajb3Td/view?usp=sharing
+Let me know if the link expired (The link is also reviewed by google, I might try different hosting at later time)
+
 Uses *Python 3.12*
+Made in *PyCharm*
 
 With nest level of minimum 1, simple command line/tkinter app to flatten nested folders up to a provided level.
 
-Tkinter got implemented along with a minor fix. Now it needs to be styled.
+Have you ever downloaded a bunch of files, and all of them were in separate folders? What about music? This tool allows 
+you to unload all the files into a single root folder and clean up all the unneeded directories. 
 
-## The script **wasn't** tested thoroughly, and you should use it with caution! I do not take responsibility for your files.
+If you have any idea what could be added, feel free to message me or just improve it yourself.
 
-All that said I might take some time to fix all the nitty-gritty details and improve it at a later time.
+## Instructions
 
-What is to be improved:
-- TKInter App Styling
-- Tests
-- Async execution where applicable
+To test basic functionality of the app, go to ./Test folder.
+To execute TKInter App go to ./Application/TKInterApplication.py
+Executing application normally will open command line version of application.
+
+**The script ***wasn't*** tested thoroughly, and you should use it with caution! I do not take responsibility for your files and system integrity, use with caution.**
+
+## What could be improved:
+- Some of the code has potential for asynchronous execution, not sure if it would actually speed the application up

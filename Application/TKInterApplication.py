@@ -1,3 +1,4 @@
+import tkinter.messagebox
 from tkinter import *
 from tkinter import ttk
 from Controler import FolderTreeCreator, Unpacker
@@ -78,11 +79,15 @@ class TKInterApplication:
             else:
                 self.error_label.config(text="Invalid directory, not matching both relative and global paths")
 
-        tree_creator = FolderTreeCreator(self.root_folder, self.nest_level)
-        unpacker = Unpacker(root_folder=self.root_folder, rename_on_failed=self.auto_rename_duplicates,
-                            delete_empty_after_moving=self.auto_delete_empty_folder)
-        for i in reversed(tree_creator.get()):
-            unpacker.folder_flatten(i)
+        if tkinter.messagebox.askokcancel("y-folder-flatten",
+                                          "By continuing you agree that the owner is not responsible on your files and system integrity. You acknowledge "
+                                          "that the application wasn't tested on thoroughly and on all systems."):
+
+            tree_creator = FolderTreeCreator(self.root_folder, self.nest_level)
+            unpacker = Unpacker(root_folder=self.root_folder, rename_on_failed=self.auto_rename_duplicates,
+                                delete_empty_after_moving=self.auto_delete_empty_folder)
+            for i in reversed(tree_creator.get()):
+                unpacker.folder_flatten(i)
 
     def set_auto_rename_duplicates(self, auto_rename_duplicates: bool):
         self.auto_rename_duplicates = auto_rename_duplicates

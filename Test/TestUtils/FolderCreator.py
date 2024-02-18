@@ -4,13 +4,15 @@ from pathlib import PurePath
 
 
 class FolderCreator:
-    root_folder: str
-    items_list: List[str] = []
-    folders_list: List[PurePath] = []
-
-    def __init__(self, root_folder: str = "./", folder_name: str = "test", nest_level: int = 1, folders_number: int = 1, file_name: str = "test", files_number: int = 1):
-        self.root_folder = os.path.join(root_folder, "Tests")
-        os.mkdir(self.root_folder)
+    def __init__(self, root_folder: str = "./", root_folder_name: str = "Tests", folder_name: str = "test", nest_level: int = 1, folders_number: int = 1, file_name: str = "test", files_number: int = 1):
+        self.root_folder = os.path.join(root_folder, root_folder_name)
+        self.items_list: List[str] = []
+        self.folders_list: List[PurePath] = []
+        try:
+            os.mkdir(self.root_folder)
+        except FileExistsError:
+            print(f"{self.root_folder} already exists!")
+        self.create_nested_folders_with_files_at_root(nest_level=nest_level, folder_name=folder_name, files_number=files_number, folders_number=folders_number, file_name=file_name)
 
     def change_root_folder(self, root_folder: str):
         self.root_folder = root_folder
@@ -49,13 +51,13 @@ class FolderCreator:
 
     def clean_up(self):
         try:
-            for i in range(len(self.items_list), 0, -1):
-                os.remove(self.items_list[i])
+            for i in reversed(self.items_list):
+                os.remove(i)
         except FileNotFoundError:
             pass
         try:
-            for i in range(len(self.folders_list), 0, -1):
-                os.removedirs(self.folders_list[i])
+            for i in reversed(self.folders_list):
+                os.removedirs(i)
         except FileNotFoundError:
             pass
         try:
