@@ -26,6 +26,8 @@
 
 # y-folder-flatten ver 1.0.0
 
+![TKinter App](thumbnail.png)
+
 Easy script to flatten folders with provided nest level 
 
 As .exe available on https://drive.google.com/file/d/1_G-gymGXVin8DnhtnRhnLjIXHBajb3Td/view?usp=sharing
