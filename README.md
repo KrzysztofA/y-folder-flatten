@@ -17,7 +17,7 @@
     ],
     "satisfaction": "5",
     "difficulty": "3",
-    "challenge": "2",
+    "challange": "2",
     "complexity": "2"
   }
 }
